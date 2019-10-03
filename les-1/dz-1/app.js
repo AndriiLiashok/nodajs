@@ -1,5 +1,6 @@
 const {createdDir, createStudent} = require('./StudentMK');
 const {Photo} = require('./images')
+
 createdDir('jscx-1800');
 createdDir('jscx-2000');
 

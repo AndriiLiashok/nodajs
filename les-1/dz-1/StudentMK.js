@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-exports.createdDir =  (dir) => {
+exports.createdDir = (dir) => {
     fs.mkdir(`./${dir}`, {}, (err) => {
         if (!err) {
             console.log('Created!!!!!');
@@ -9,12 +9,12 @@ exports.createdDir =  (dir) => {
 };
 
 exports.createStudent = (Dir, nameDirStudents, nameFile, Students) => {
-    fs.mkdir(`./${Dir}/${nameDirStudents}`, {}, err => {
+    fs.mkdir(`./${Dir}/${nameDirStudents}`, {}, (err) => {
         if (!err) {
             console.log('Created!!!!!');
         }
     });
-    let writeStream = fs.createWriteStream(`./${Dir}/${nameDirStudents}/${nameFile}.txt`, err => {
+    let writeStream = fs.createWriteStream(`./${Dir}/${nameDirStudents}/${nameFile}.txt`, (err) => {
         if (!err) {
             console.log('Created!!!!!');
         }
