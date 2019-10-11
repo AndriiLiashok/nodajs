@@ -1,0 +1,1 @@
+module.exports.newUserValidator = require('./new _user.validator')

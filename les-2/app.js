@@ -16,65 +16,27 @@ app.engine('.hbs', expressHbs({
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'static'));
 
-let users = [];
-let houses = [];
+let {user, house, render} = require('./controller');
+let {user: userMiddleware, house: houseMiddleware} = require('./middleware');
 
-app.get('/', (req, res) => {
-    res.render('main')
-});
+app.get('/', render.main);
+app.get('/house', render.house);
+app.get('/register', render.register);
+app.get('/login', render.login);
+app.get('/searchHouse', render.searchHouse);
 
-app.get('/house', (req, res) => {
-    res.render('house')
-});
+app.post('/register', userMiddleware.checkUserValidatorMiddleware, user.createUser);
+app.post('/house', houseMiddleware.checkHouseValidatorMiddleware, house.createHouse);
 
-app.get('/register', (req, res) => {
-    res.render('register')
-});
 
-app.get('/login', (req, res) => {
-    res.render('loginn')
-});
+app.get('/user/:user_id',userMiddleware.isUsersMiddleware, user.getById);
+app.get('/house/:house_id', houseMiddleware.housePressentMiddleware, house.getByIdHouses);
 
-app.get('*', (req, res) => {
-    res.render('404')
-});
+app.post('/login', userMiddleware.checkLoginUserMiddleware, user.loginUser);
+app.post('/searchHouse', houseMiddleware.searchHouseMiddleware, house.searchHouse);
 
-app.post('/register', (req, res) => {
-    const user = req.body;
-    user.user_id = users.length + 1;
-    users.push(user);
-    console.log(user);
-    res.render('loginn');
-});
+app.get('*', render.error404);
 
-app.post('/house', (req, res) => {
-    const house = req.body;
-    house.hous_id = houses.length + 1;
-    houses.push(house);
-    console.log(house);
-    res.redirect('house');
-});
-
-app.get('/user/:user_id', (req, res) => {
-    const userID = users.find(user => +req.params.user_id === user.user_id);
-
-    userID ? res.json(userID) : res.render('404');
-
-});
-
-app.get('/house/:house_id', (req, res) => {
-    const houseID = houses.find(house => +req.params.hous_id === house.hous_id);
-
-    houseID ? res.json(houseID) : res.render('404');
-
-});
-
-app.post('/login', (req, res) => {
-    const {password, email, userName} = req.body;
-    const userArr = users.find(user => password === user.password && email === user.email && userName === user.userName);
-
-    userArr ? res.json(userArr) : res.render('404');
-});
 
 app.listen(3000, () => {
     console.log(3000);
