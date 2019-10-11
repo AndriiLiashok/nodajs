@@ -2,8 +2,11 @@ const {provider} = require('../../dataBase');
 
 module.exports = async (req, res)=>{
     const {city, prise, street} = req.body;
+
     const query = `INSERT INTO house (city, prise, street) VALUES (?, ?, ?)`;
+
     await provider.promise().query(query, [city, prise, street]);
+
     res.render('house')
 };
 
