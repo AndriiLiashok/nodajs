@@ -24,17 +24,20 @@ app.get('/house', render.house);
 app.get('/register', render.register);
 app.get('/login', render.login);
 app.get('/searchHouse', render.searchHouse);
+app.get('/update', render.update);
 
 app.post('/register', userMiddleware.checkUserValidatorMiddleware, user.createUser);
 app.post('/house', houseMiddleware.checkHouseValidatorMiddleware, house.createHouse);
 
 
-app.get('/user/:user_id',userMiddleware.isUsersMiddleware, user.getById);
-app.get('/house/:house_id', houseMiddleware.housePressentMiddleware, house.getByIdHouses);
+app.get('/users/:user_id',userMiddleware.isUsersMiddleware, user.getById);
+app.get('/houses/:house_id', houseMiddleware.housePressentMiddleware, house.getByIdHouses);
 
 app.post('/login', userMiddleware.checkLoginUserMiddleware, user.loginUser);
-app.post('/searchHouse', houseMiddleware.searchHouseMiddleware, house.searchHouse);
+app.post('/searchHouse',houseMiddleware.searchHouseMiddleware,  house.searchHouseControl);
 
+app.post('/userUpdate', userMiddleware.checkUpdateValiddator, userMiddleware.checkUpdateMiddleware, user.updateUser);
+app.post('/houseUpdate',houseMiddleware.checkUpdateHouseValiddator, houseMiddleware.checkUpdateHouseMiddleware, house.updateHouse);
 app.get('*', render.error404);
 
 
